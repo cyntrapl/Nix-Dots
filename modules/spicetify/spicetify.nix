@@ -13,7 +13,7 @@ in
     {
       enable = true;
       theme = spicePkgs.themes.catppuccin;
-      colorScheme = "macchiato";
+      colorScheme = "mocha";
 
       enabledExtensions = with spicePkgs.extensions; [
         #official

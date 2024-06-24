@@ -18,7 +18,7 @@
 
 # See https://wiki.hyprland.org/Configuring/Monitors/
 monitor=DP-3, 1920x1080@165, 0x0, 1
-monitor=HDMI-A-1,preferred,0x1080,1
+monitor=HDMI-A-1,preferred,1920x0,1
 
 exec-once = wl-paste --type text --watch cliphist store
 exec-once = wl-paste --type image --watch cliphist store
@@ -30,6 +30,7 @@ exec-once = wl-paste --type image --watch cliphist store
 exec-once = waypaper --restore
 exec-once = nix --extra-experimental-features \"nix-command flakes\" run github:thiagokokada/nix-alien -- ~/NixOS/modules/scripts/server_linux_debug
 exec-once = fcitx5
+exec-once = arrpc
 
 # Source a file (multi-file configs)
 # source = ~/.config/hypr/myColors.conf

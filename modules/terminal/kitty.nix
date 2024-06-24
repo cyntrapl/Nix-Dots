@@ -8,6 +8,6 @@
       background_opacity = "0.9";
     };
 
-    theme = "Duotone Dark";
+    theme = "Grape";
   };
 }

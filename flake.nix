@@ -9,7 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+    };
 
     ags.url = "github:Aylur/ags";
 
@@ -27,15 +31,6 @@
       modules = [
         ./hosts/configuration.nix
         inputs.home-manager.nixosModules.default
-	{
-          imports = [ aagl.nixosModules.default ];
-          nix.settings = aagl.nixConfig; # Set up Cachix
-          programs.anime-game-launcher.enable = true; # Adds launcher and /etc/hosts rules
-          programs.anime-games-launcher.enable = true;
-          programs.anime-borb-launcher.enable = true;
-          programs.honkers-railway-launcher.enable = true;
-          programs.honkers-launcher.enable = true;
-	}
       ];
     };
   };

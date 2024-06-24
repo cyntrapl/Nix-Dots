@@ -8,7 +8,7 @@
   imports = [
     ../modules/terminal/kitty.nix
     ../modules/launcher/fuzzel.nix
-    ../modules/editor/neovim.nix
+    #../modules/editor/neovim.nix
     ../modules/hyprland/hyprland.nix
     ../modules/explorer/lf.nix
     ../modules/explorer/bat.nix
@@ -16,9 +16,8 @@
     ../modules/widgets/ags.nix
     ../modules/spicetify/spicetify.nix
     ../modules/video/mpv.nix
-    ../modules/animegames/animegames.nix
     ]; 
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
     
@@ -30,18 +29,21 @@
     pavucontrol
     htop
     unrar
+    arrpc
     (vesktop.override {
-    	withSystemVencord = false; #this fixes most plugin issues
+      withSystemVencord = false;
     })
+    git-credential-manager
 
     #gaming
     heroic
     gamescope
     mangohud
     r2modman
+    clonehero
 
     #weeb
-    miru
+    #miru  # isnt working lmao 
     memento
     
 
@@ -56,12 +58,11 @@
     gnome.nautilus
 
     #development
-    git
-    github-desktop
     jetbrains-toolbox
     sublime
     unityhub
-    temurin-jre-bin-21
+    temurin-jre-bin-17 
+    dotnet-runtime
 
     (wineWowPackages.full.override {
      wineRelease = "staging";
@@ -69,6 +70,18 @@
     })
     winetricks
   ];
+
+  programs.lazygit.enable = true;
+  programs.git = {
+    enable = true;
+    userName  = "Cyntrap";
+    userEmail = "cyntrapg@gmail.com";
+    extraConfig = {
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
+    };
+  };
 
   home.file = {
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in

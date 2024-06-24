@@ -8,11 +8,17 @@
     [ 
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
+      inputs.aagl.nixosModules.default
     ];
-
-  boot.loader.systemd-boot.enable = true;
+  #boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
+
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.efiSupport = true;
+
 
   programs.nix-ld.enable = true;
 
@@ -62,12 +68,15 @@
     SDL_IM_MODULE = "fcitx";
     GLFW_IM_MODULE = "ibus";
   };
-  services.xserver = {
-    enable = true;
-    xkb = {
-      variant = "us";
-      layout = "";
+  services = {
+    xserver = {
+      enable = true;
+      xkb = {
+        variant = "us";
+        layout = "";
+      };
     };
+
     libinput.enable = true;
     displayManager.sddm = {
       enable = true;
@@ -128,9 +137,15 @@
     fish = {
       enable = true;
       shellInit = "neofetch";
+      interactiveShellInit = "
+      set fish_greeting                       #removes fish help message
+      set -Ux LSCOLORS gxfxbEaEBxxEhEhBaDaCaD #makes folder colors not ugly
+      ";
       shellAliases = {
       	nix-update = "sudo nixos-rebuild switch --flake ~/NixOS#default";
-	"..." = "cd ../..";
+	      "..." = "cd ../..";
+	      nvim  = "nix run ~/NixOS/modules/nixvim/ --";
+        big = "cd /run/mount/Big/";
       };
     };
     steam = {
@@ -169,12 +184,32 @@
      grimblast
      pypy3
      gnome.gnome-disk-utility
+     gnome.gnome-software
+     ripgrep
+
+
+    #fish plugins
+    fishPlugins.done
   ];
+
+  programs.git = {
+    enable = true;
+    package = pkgs.gitFull;
+    config = { 
+      credential.helper = "libsecret";
+    };
+  };
+
+
+  #programs.anime-game-launcher.enable = true; # Adds launcher and /etc/hosts rules
+  programs.anime-games-launcher.enable = true;
+  #programs.anime-borb-launcher.enable = true;
+  #programs.honkers-railway-launcher.enable = true;
+  #programs.honkers-launcher.enable = true;
 
   fonts.packages = with pkgs; [
     noto-fonts-cjk
   ];
 
-  system.stateVersion = "23.11"; # Did you read the comment?
-
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
